@@ -1,0 +1,38 @@
+{
+  "name": "bayfrontmedia/openapi-parser",
+  "description": "PHP OpenAPI specification parser",
+  "homepage": "https://github.com/bayfrontmedia/openapi-parser",
+  "license" : "MIT",
+  "type": "library",
+  "keywords": [
+    "openapi",
+    "swagger",
+    "api",
+    "parse",
+    "bayfrontmedia"
+  ],
+  "authors": [
+    {
+      "name": "John Robinson",
+      "email": "john@bayfrontmedia.com",
+      "homepage": "https://www.bayfrontmedia.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/bayfrontmedia/openapi-parser/issues"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist"
+  },
+  "require": {
+    "php": "^8.0",
+    "bayfrontmedia/php-array-helpers": "^2.0",
+    "bayfrontmedia/php-validator": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bayfront\\OpenApi\\": "src/"
+    }
+  }
+}

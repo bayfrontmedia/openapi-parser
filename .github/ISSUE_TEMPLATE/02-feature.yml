@@ -1,0 +1,23 @@
+name: 🛠️ Feature request
+description: Request a new feature
+title: "[FEATURE]: "
+labels: ["Type: Feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        To request a new feature, complete the form below.
+        Be sure to add labels for the most relevant tech and priority.
+  - type: input
+    attributes:
+      label: Current version
+      description: Latest release to-date [found here](https://github.com/bayfrontmedia/openapi-parser/releases)
+      placeholder: vX.X.X
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: Detailed description of the feature
+    validations:
+      required: true
