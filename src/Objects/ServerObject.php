@@ -5,7 +5,7 @@ namespace Bayfront\OpenApi\Objects;
 use Bayfront\ArrayHelpers\Arr;
 use Bayfront\OpenApi\Abstracts\ObjectMethods;
 use Bayfront\OpenApi\Exceptions\OpenApiException;
-use Bayfront\Validator\Validate;
+use Bayfront\Validator\Rules\Url;
 
 /**
  * See: https://swagger.io/specification/#server-object
@@ -24,7 +24,9 @@ class ServerObject extends ObjectMethods
     public function validate(): void
     {
 
-        if (!Validate::url(Arr::get($this->object, 'url', ''))) {
+        $validateUrl = new Url(Arr::get($this->object, 'url', ''));
+
+        if (!$validateUrl->isValid()) {
             throw new OpenApiException('Invalid ServerObject URL');
         }
 

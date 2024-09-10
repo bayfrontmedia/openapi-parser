@@ -5,7 +5,7 @@ namespace Bayfront\OpenApi\Objects;
 use Bayfront\ArrayHelpers\Arr;
 use Bayfront\OpenApi\Abstracts\ObjectMethods;
 use Bayfront\OpenApi\Exceptions\OpenApiException;
-use Bayfront\Validator\Validate;
+use Bayfront\Validator\Rules\Url;
 
 /**
  * See: https://swagger.io/specification/#reference-object
@@ -24,7 +24,9 @@ class ReferenceObject extends ObjectMethods
     public function validate(): void
     {
 
-        if (!Validate::url(Arr::get($this->object, '$ref', ''))) {
+        $validateUrl = new Url(Arr::get($this->object, '$ref', ''));
+
+        if (!$validateUrl->isValid()) {
             throw new OpenApiException('Invalid ReferenceObject $ref value');
         }
 

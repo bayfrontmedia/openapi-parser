@@ -5,7 +5,7 @@ namespace Bayfront\OpenApi\Objects;
 use Bayfront\ArrayHelpers\Arr;
 use Bayfront\OpenApi\Abstracts\ObjectMethods;
 use Bayfront\OpenApi\Exceptions\OpenApiException;
-use Bayfront\Validator\Validate;
+use Bayfront\Validator\Rules\Url;
 
 /**
  * See: https://swagger.io/specification/#oauth-flow-object
@@ -24,11 +24,15 @@ class OAuthFlowObject extends ObjectMethods
     public function validate(): void
     {
 
-        if (!Validate::url(Arr::get($this->object, 'authorizationUrl', ''))) {
+        $authUrl = new Url(Arr::get($this->object, 'authorizationUrl', ''));
+
+        if (!$authUrl->isValid()) {
             throw new OpenApiException('Invalid OAuthFlowObject authorizationUrl');
         }
 
-        if (!Validate::url(Arr::get($this->object, 'tokenUrl', ''))) {
+        $tokenUrl = new Url(Arr::get($this->object, 'tokenUrl', ''));
+
+        if (!$tokenUrl->isValid()) {
             throw new OpenApiException('Invalid OAuthFlowObject tokenUrl');
         }
 
