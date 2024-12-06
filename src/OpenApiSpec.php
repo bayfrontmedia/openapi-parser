@@ -3,6 +3,7 @@
 namespace Bayfront\OpenApi;
 
 use Bayfront\ArrayHelpers\Arr;
+use Bayfront\OpenApi\Objects\OpenApiObject;
 
 class OpenApiSpec
 {
@@ -32,11 +33,14 @@ class OpenApiSpec
     /**
      * Resolve OpenAPI references.
      *
+     * @param OpenApiObject $openApiObject
      * @param array $array
      * @return array
      */
-    public static function resolve(array $array): array
+    public static function resolve(OpenApiObject $openApiObject, array $array): array
     {
+
+        $obj = json_decode(json_encode($openApiObject->getObject()), true);
 
         $dot = Arr::dot($array);
 
@@ -48,10 +52,10 @@ class OpenApiSpec
                 $reference = substr(str_replace('/', '.', $v), 2); // Remove first two characters
 
                 unset($dot[$k]); // Remove reference
-                $resolved = Arr::get($array, $reference); // Resolve from original array
+                $resolved = Arr::get($obj, $reference); // Resolve from original array
 
                 if (is_array($resolved)) { // Resolved value may have other references
-                    $resolved = self::resolve($resolved);
+                    $resolved = self::resolve($openApiObject, $resolved);
                 }
 
                 $dot[$key] = $resolved; // Set resolved value

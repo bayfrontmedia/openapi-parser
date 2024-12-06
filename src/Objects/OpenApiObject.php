@@ -233,4 +233,28 @@ class OpenApiObject extends ObjectMethods
 
     }
 
+    public function getOperationObjectById(string $operation_id): ?OperationObject
+    {
+
+        $paths = Arr::dot(Arr::get($this->object, 'paths', []));
+
+        foreach ($paths as $k => $v) {
+
+            if (str_ends_with($k, 'operationId') && $v == $operation_id) {
+
+                $exp = explode('.', $k);
+
+                if (count($exp) == 3) {
+                    $path = $this->getPath($exp[0]);
+                    return $path->getOperation($exp[1]);
+                }
+
+            }
+
+        }
+
+        return null;
+
+    }
+
 }
