@@ -67,4 +67,6 @@ $operationObject = $path->getOperation($path::OPERATION_POST);
 $operationObject = $openApiObject->getOperationObjectById('user.login')
 ```
 
+To parse from a `.yaml` file, the `yaml` PHP extension must be installed to use the `yaml_parse` function.
+
 Additional documentation coming soon.
