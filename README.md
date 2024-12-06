@@ -26,6 +26,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## Requirements
 
 * PHP >= 8.0
+* `yaml` PHP extension
 
 ## Installation
 
