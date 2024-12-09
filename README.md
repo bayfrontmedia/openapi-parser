@@ -26,6 +26,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## Requirements
 
 * PHP >= 8.0
+* `yaml` PHP extension
 
 ## Installation
 
@@ -40,24 +41,32 @@ The `OpenApiSpec` class is used to parse JSON and YAML files into an array, as w
 The resolved specification array can then be used to create an `OpenApiObject` instance. 
 All OpenAPI object class instances implement `ObjectInterface`.
 
-The `ObjectInterface` includes a `validate()` method to validate against the OpenAPI specification,
+The `ObjectInterface` includes a `getObject` method to return the entire object as an array,
+and a `validate()` method to validate against the OpenAPI specification,
 but all validation functions are currently rudimentary and should not be relied upon.
 It is advised to use this library with an OpenAPI specification which has already been tested as valid.
 
 > NOTE: The `resolve` method can be quite slow depending on the size of the OpenAPI specification. 
-> It is strongly suggested to save/cache the resolved specification to use in production.
+> It is strongly suggested to save/cache the resolved specification to use in production,
+> or to only resolve parts of the specification as needed.
 
 ### Example
 
 ```php
-$spec = OpenApiSpec::parseJson(file_get_contents('openapi-specification.json')); // Parse JSON
-$spec = OpenApiSpec::resolve($spec); // Resolve internal references (this file should be saved/cached)
+$object = OpenApiSpec::parseJson(file_get_contents('openapi-specification.json')); // Parse JSON
 
-$openapi = new OpenApiObject($spec); // Create new OpenApiObject using a resolved and valid OpenAPI specification
+$openApiObject = new OpenApiObject($object);
 
-// Get PathItemObject for a single path
-$path = $openapi->getPath('/auth/login');
-$request = $path->getOperation($path::OPERATION_POST);
+$resolved = OpenApiSpec::resolve($openApiObject, $openApiObject->getObject()); // Resolve internal references (this file should be saved/cached)
+
+// Get OperationObject by path and operation
+$pathItemObject = $openApiObject->getPath('/user/login');
+$operationObject = $path->getOperation($path::OPERATION_POST);
+
+// Get OperationObject by operation ID
+$operationObject = $openApiObject->getOperationObjectById('user.login')
 ```
+
+To parse from a `.yaml` file, the `yaml` PHP extension must be installed to use the `yaml_parse` function.
 
 Additional documentation coming soon.
