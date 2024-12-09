@@ -233,6 +233,12 @@ class OpenApiObject extends ObjectMethods
 
     }
 
+    /**
+     * Get operation object by operationId.
+     *
+     * @param string $operation_id
+     * @return OperationObject|null
+     */
     public function getOperationObjectById(string $operation_id): ?OperationObject
     {
 
