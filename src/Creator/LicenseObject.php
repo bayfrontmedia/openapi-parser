@@ -1,0 +1,8 @@
+<?php
+
+namespace Bayfront\OpenApi\Creator;
+
+class LicenseObject
+{
+
+}
